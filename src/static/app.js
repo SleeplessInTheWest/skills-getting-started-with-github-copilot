@@ -23,10 +23,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const participantsHtml = details.participants.length
           ? `<ul class="participants-list">${details.participants
-              .map(
-                (p) =>
-                  `<li><span>${p}</span><button class="delete-btn" title="Unregister ${p}" aria-label="Unregister ${p}" data-activity="${name}" data-email="${p}">🗑️</button></li>`
-              )
+              .map((p) => {
+                const li = document.createElement("li");
+                const span = document.createElement("span");
+                span.textContent = p;
+                const button = document.createElement("button");
+                button.className = "delete-btn";
+                button.title = `Unregister ${p}`;
+                button.setAttribute("aria-label", `Unregister ${p}`);
+                button.dataset.activity = name;
+                button.dataset.email = p;
+                button.textContent = "🗑️";
+                li.append(span, button);
+                return li.outerHTML;
+              })
               .join("")}</ul>`
           : `<p class="no-participants">No participants yet. Be the first!</p>`;
 
